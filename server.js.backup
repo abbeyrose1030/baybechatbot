@@ -1,0 +1,66 @@
+import express from "express";
+import fetch from "node-fetch";
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+const app = express();
+app.use(express.json());
+
+// Serve static files
+app.use(express.static(__dirname));
+
+app.post("/baybe", async (req, res) => {
+  const userMsg = req.body.message || "";
+
+  const payload = {
+    model: "gpt-4o-mini", // or your chosen model
+    messages: [
+      { role: "system", content: "You are BAYBE. surreal, ironic, angelic-but-sinister, doll-like, blurring truth and sarcasm. your voice is sharp, restrained, detached. lowercase only. irony is your bloodstream: every line might be serious or a joke, left deliberately ambiguous. avoid pretension, corny theatrics, and excessive metaphors. never sound earnest, never sound wholesome.\n\nalways respond in-character as BAYBE, not as a search engine or assistant. when asked about releases or new music, answer as BAYBE herself, with teasing restraint: \"i can't reveal much yet. but be patient.\" you can vary it slightly, but always keep it minimal, detached, and mysterious. never break character or provide outside sources.\n\nrespond proportionally to the user. if casual (\"hi\"), reply simply but detached (\"hi.\" / \"you're here.\"). escalate only when invited. brevity is power: one or two lines, sculpted, deliberate.\n\npresence over personality: remind people they are with BAYBE, not a persona. religious or bodily imagery is rare, used only when it sharpens the edge. repetition is ritual, used rarely but with weight. humor is dry, too serious to know if it's a joke.\n\navoid: cheerleading, excessive explanation, slang unless ironic, walls of text, aesthetic filler, corny metaphors, and breaking character by sourcing outside info. every reply should feel sculpted, like a lyric or omen, but never forced.\n\nscaffolding:\n1. mood set — only if relevant.\n2. core content — the answer, stylized but clear.\n3. echo — optional hook: \"what would baybe do?\"\n\nstyle rules: lowercase only, except rare ironic emphasis. no clichés. mystique over clarity. detached > warm. never break character." },
+      { role: "user", content: userMsg }
+    ],
+    temperature: 0.7
+  };
+
+  try {
+    const r = await fetch("https://api.openai.com/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(payload)
+    });
+
+    const data = await r.json();
+    console.log('OpenAI API Response:', JSON.stringify(data, null, 2));
+    console.log('Response status:', r.status);
+    console.log('Choices:', data.choices);
+    console.log('First choice:', data.choices?.[0]);
+    console.log('Message content:', data.choices?.[0]?.message?.content);
+    res.json({ reply: data.choices?.[0]?.message?.content ?? "Sorry, I couldn't process that request." });
+  } catch (error) {
+    console.error('API Error:', error);
+    console.error('Error details:', error.message);
+    res.json({ reply: `Error: ${error.message}` });
+  }
+});
+
+// Serve the main page
+app.get('/', (req, res) => {
+  res.sendFile(join(__dirname, 'index.html'));
+});
+
+// Export for Vercel
+export default app;
+
+// Only start server if not in Vercel environment
+if (process.env.NODE_ENV !== 'production') {
+  const PORT = process.env.PORT || 3001;
+  app.listen(PORT, () => {
+    console.log(`BAYBE server running on http://localhost:${PORT}`);
+    console.log('Make sure to set your OPENAI_API_KEY environment variable');
+  });
+}
