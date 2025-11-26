@@ -26,7 +26,7 @@ class BaybeChat {
     }
     
     addWelcomeMessage() {
-        const welcomeMessage = this.createMessage('bot', 'Hello! I\'m BAYBE. How can I help you today?');
+        const welcomeMessage = this.createMessage('bot', 'oh. you\'re here.');
         this.messagesContainer.appendChild(welcomeMessage);
         this.scrollToBottom();
     }
