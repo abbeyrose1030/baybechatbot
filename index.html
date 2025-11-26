@@ -10,13 +10,20 @@
     <div class="container">
         <div class="chat-box">
             <div class="header">
+                <div class="header-left">
+                    <div class="logo"></div>
+                    <span class="model-version">SUBMI.TT MODEL v0.8</span>
+                </div>
+                <span class="timestamp" id="timestamp"></span>
+            </div>
+            <div class="title-section">
                 <h1>BAYBE</h1>
             </div>
             <div class="messages" id="messages">
                 <!-- Messages will appear here -->
             </div>
             <div class="input-container">
-                <input type="text" id="messageInput" placeholder="say hi." autocomplete="off">
+                <input type="text" id="messageInput" placeholder="enter query" autocomplete="off">
                 <button id="sendButton">→</button>
             </div>
         </div>

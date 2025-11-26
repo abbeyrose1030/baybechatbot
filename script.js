@@ -3,6 +3,7 @@ class BaybeChat {
         this.messagesContainer = document.getElementById('messages');
         this.messageInput = document.getElementById('messageInput');
         this.sendButton = document.getElementById('sendButton');
+        this.timestampElement = document.getElementById('timestamp');
         this.isTyping = false;
         this.conversationHistory = [];
         
@@ -21,6 +22,22 @@ class BaybeChat {
         
         // Focus on input when page loads
         this.messageInput.focus();
+        
+        // Start timestamp update
+        this.updateTimestamp();
+        setInterval(() => this.updateTimestamp(), 1000);
+    }
+    
+    updateTimestamp() {
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const seconds = String(now.getSeconds()).padStart(2, '0');
+        
+        this.timestampElement.textContent = `${year}.${month}.${day} ${hours}:${minutes}:${seconds}`;
     }
     
     async sendMessage() {
@@ -41,7 +58,7 @@ class BaybeChat {
             this.addMessage('bot', response);
         } catch (error) {
             this.hideTypingIndicator();
-            this.addMessage('bot', 'Sorry, I encountered an error. Please try again.');
+            this.addMessage('bot', 'connection terminated.');
             console.error('Error:', error);
         }
     }
@@ -63,7 +80,7 @@ class BaybeChat {
         }
         
         const data = await response.json();
-        const reply = data.reply || 'No response received.';
+        const reply = data.reply || 'no response.';
         
         // Add to conversation history
         this.conversationHistory.push({ role: 'user', content: message });
@@ -93,7 +110,7 @@ class BaybeChat {
     showTypingIndicator() {
         this.isTyping = true;
         this.sendButton.disabled = true;
-        this.sendButton.style.opacity = '0.5';
+        this.sendButton.style.opacity = '0.4';
         
         const typingDiv = document.createElement('div');
         typingDiv.className = 'typing-indicator';
@@ -128,29 +145,4 @@ class BaybeChat {
 // Initialize chat when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     new BaybeChat();
-});
-
-// Add some visual effects
-document.addEventListener('DOMContentLoaded', () => {
-    // Add subtle glow effect to the chat box
-    const chatBox = document.querySelector('.chat-box');
-    
-    // Create a subtle pulsing effect
-    setInterval(() => {
-        const glowIntensity = 0.05 + Math.sin(Date.now() * 0.001) * 0.02;
-        chatBox.style.boxShadow = `
-            0 0 30px rgba(255, 255, 255, ${glowIntensity}),
-            inset 0 0 20px rgba(0, 0, 0, 0.5)
-        `;
-    }, 50);
-    
-    // Add keyboard sound effect simulation (visual feedback)
-    const messageInput = document.getElementById('messageInput');
-    messageInput.addEventListener('input', () => {
-        // Subtle visual feedback when typing
-        messageInput.style.borderColor = '#777777';
-        setTimeout(() => {
-            messageInput.style.borderColor = '#333333';
-        }, 100);
-    });
 });
