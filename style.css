@@ -43,9 +43,9 @@ body::before {
 
 .chat-box {
     width: 100%;
-    max-width: 480px;
+    max-width: 520px;
     height: auto;
-    max-height: 500px;
+    max-height: 600px;
     background: #0C0C0C;
     border: 1px solid #2a2a2a;
     display: flex;
@@ -115,7 +115,7 @@ body::before {
 
 /* Title section */
 .title-section {
-    padding: 32px 28px 28px 32px;
+    padding: 40px 28px 32px 32px;
     border-bottom: 1px solid #1a1a1a;
     text-align: center;
 }
@@ -146,8 +146,8 @@ body::before {
     flex-direction: column;
     gap: 20px;
     background: #0C0C0C;
-    min-height: 150px;
-    max-height: 250px;
+    min-height: 180px;
+    max-height: 320px;
 }
 
 .message {
@@ -332,8 +332,7 @@ body::before {
 @media (max-width: 768px) {
     .container {
         padding: 20px;
-        align-items: flex-start;
-        padding-top: 40px;
+        align-items: center;
     }
     
     .chat-box {
@@ -344,8 +343,8 @@ body::before {
     }
     
     .messages {
-        min-height: 120px;
-        max-height: 200px;
+        min-height: 150px;
+        max-height: 280px;
     }
     
     .title-section h1 {
