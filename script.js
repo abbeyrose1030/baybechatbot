@@ -21,15 +21,6 @@ class BaybeChat {
         
         // Focus on input when page loads
         this.messageInput.focus();
-        
-        // Add welcome message
-        this.addWelcomeMessage();
-    }
-    
-    addWelcomeMessage() {
-        const welcomeMessage = this.createMessage('bot', 'oh. you\'re here.');
-        this.messagesContainer.appendChild(welcomeMessage);
-        this.scrollToBottom();
     }
     
     async sendMessage() {
