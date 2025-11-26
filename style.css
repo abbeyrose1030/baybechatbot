@@ -243,28 +243,29 @@ body::before {
 }
 
 #sendButton {
-    width: 44px;
-    height: 44px;
-    background: transparent;
-    border: 1px solid #2a2a2a;
-    border-radius: 0;
-    color: #A9A9A9;
-    font-size: 16px;
+    width: 32px;
+    height: 32px;
+    background: #A9A9A9;
+    border: none;
+    border-radius: 50%;
+    color: #0C0C0C;
+    font-size: 14px;
     cursor: pointer;
     transition: all 0.2s ease;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: 'IBM Plex Mono', monospace;
+    flex-shrink: 0;
+    padding-left: 2px;
 }
 
 #sendButton:hover {
-    border-color: #3a3a3a;
-    color: #F8F9FA;
+    background: #F8F9FA;
 }
 
 #sendButton:active {
-    background: #1a1a1a;
+    background: #888888;
+    transform: scale(0.95);
 }
 
 /* Typing indicator */
@@ -364,8 +365,8 @@ body::before {
     }
     
     #sendButton {
-        width: 40px;
-        height: 40px;
+        width: 32px;
+        height: 32px;
     }
 }
 
