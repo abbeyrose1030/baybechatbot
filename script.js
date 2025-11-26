@@ -4,6 +4,7 @@ class BaybeChat {
         this.messageInput = document.getElementById('messageInput');
         this.sendButton = document.getElementById('sendButton');
         this.isTyping = false;
+        this.conversationHistory = [];
         
         this.init();
     }
@@ -60,7 +61,10 @@ class BaybeChat {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ message: message })
+            body: JSON.stringify({ 
+                message: message,
+                history: this.conversationHistory 
+            })
         });
         
         if (!response.ok) {
@@ -68,7 +72,18 @@ class BaybeChat {
         }
         
         const data = await response.json();
-        return data.reply || 'No response received.';
+        const reply = data.reply || 'No response received.';
+        
+        // Add to conversation history
+        this.conversationHistory.push({ role: 'user', content: message });
+        this.conversationHistory.push({ role: 'assistant', content: reply });
+        
+        // Keep only last 20 messages to avoid token limits
+        if (this.conversationHistory.length > 20) {
+            this.conversationHistory = this.conversationHistory.slice(-20);
+        }
+        
+        return reply;
     }
     
     addMessage(sender, content) {
