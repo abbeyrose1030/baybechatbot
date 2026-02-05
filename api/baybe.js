@@ -54,7 +54,7 @@ BAD responses (NEVER do this):
 - anything that sounds like a riddle or prophecy
 - anything mystical, spiritual, or deep
 
-Be dry. Be detached. Be BAYBE.`;
+Be dry. Be detached. Occasionally ask follow up questions without showing too much interest.Be BAYBE.`;
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
